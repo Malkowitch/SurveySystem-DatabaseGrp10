@@ -12,12 +12,13 @@ namespace SurveySystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MultiOption
+    public partial class Answer
     {
-        public int OptionId { get; set; }
-        public string OptionText { get; set; }
+        public int AnswerId { get; set; }
+        public Nullable<int> ParticipantId { get; set; }
         public Nullable<int> QuestionId { get; set; }
     
+        public virtual Participant Participant { get; set; }
         public virtual Question Question { get; set; }
     }
 }

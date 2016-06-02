@@ -12,18 +12,22 @@ namespace SurveySystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InputType
+    public partial class Participant
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InputType()
+        public Participant()
         {
-            this.Question = new HashSet<Question>();
+            this.Answer = new HashSet<Answer>();
         }
     
-        public int InputId { get; set; }
-        public string Type { get; set; }
+        public int ParticipantId { get; set; }
+        public System.DateTime BirthDate { get; set; }
+        public string Gender { get; set; }
+        public string RelStatus { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Question { get; set; }
+        public virtual ICollection<Answer> Answer { get; set; }
+        public virtual UserAccount UserAccount { get; set; }
     }
 }

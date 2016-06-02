@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SurveySystemDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParticipantId" Type="int" />
+          <Property Name="QuestionId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SurveySystemDB.dbo.AnswerText' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="AnswerText">
+          <Property Name="AnswerId" Type="int" />
+          <Property Name="TextInput" Type="nvarchar(max)" />
+        </EntityType>-->
+        <EntityType Name="InputType">
+          <Key>
+            <PropertyRef Name="InputId" />
+          </Key>
+          <Property Name="InputId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MultiOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OptionText" Type="nvarchar(max)" />
+          <Property Name="QuestionId" Type="int" />
+        </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="ParticipantId" />
+          </Key>
+          <Property Name="ParticipantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="RelStatus" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="QuestionDesc" Type="nvarchar(max)" />
+          <Property Name="AnswerRequired" Type="bit" Nullable="false" />
+          <Property Name="RatingMaxValue" Type="tinyint" />
+          <Property Name="SurveyId" Type="int" />
+          <Property Name="InputId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SurveySystemDB.dbo.Rating' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Rating">
+          <Property Name="AnswerId" Type="int" />
+          <Property Name="RatingInput" Type="tinyint" />
+        </EntityType>-->
+        <EntityType Name="Survey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurveyTitle" Type="nvarchar(max)" />
+          <Property Name="AdminId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Fname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lname" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Administr__Email__173876EA">
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <End Role="Administrator" Type="Self.Administrator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Administrator">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__Particip__239E4DCF">
+          <End Role="Participant" Type="Self.Participant" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participant">
+              <PropertyRef Name="ParticipantId" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="ParticipantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__Question__286302EC">
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'SurveySystemDB.dbo.AnswerText' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__AnswerTex__Answe__25869641" />-->
+        <Association Name="FK__MultiOpti__Quest__20C1E124">
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="MultiOption" Type="Self.MultiOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="MultiOption">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Participa__Email__145C0A3F">
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Question__InputI__1DE57479">
+          <End Role="InputType" Type="Self.InputType" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InputType">
+              <PropertyRef Name="InputId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="InputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Question__Survey__1CF15040">
+          <End Role="Survey" Type="Self.Survey" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Rating__AnswerId__276EDEB3" />-->
+        <Association Name="FK__Survey__AdminId__1A14E395">
+          <End Role="Administrator" Type="Self.Administrator" Multiplicity="0..1" />
+          <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrator">
+              <PropertyRef Name="AdminId" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SurveySystemDBModelStoreContainer">
+          <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InputType" EntityType="Self.InputType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MultiOption" EntityType="Self.MultiOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Survey" EntityType="Self.Survey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Administr__Email__173876EA" Association="Self.FK__Administr__Email__173876EA">
+            <End Role="UserAccount" EntitySet="UserAccount" />
+            <End Role="Administrator" EntitySet="Administrator" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__Particip__239E4DCF" Association="Self.FK__Answer__Particip__239E4DCF">
+            <End Role="Participant" EntitySet="Participant" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__Question__286302EC" Association="Self.FK__Answer__Question__286302EC">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MultiOpti__Quest__20C1E124" Association="Self.FK__MultiOpti__Quest__20C1E124">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="MultiOption" EntitySet="MultiOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Participa__Email__145C0A3F" Association="Self.FK__Participa__Email__145C0A3F">
+            <End Role="UserAccount" EntitySet="UserAccount" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Question__InputI__1DE57479" Association="Self.FK__Question__InputI__1DE57479">
+            <End Role="InputType" EntitySet="InputType" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Question__Survey__1CF15040" Association="Self.FK__Question__Survey__1CF15040">
+            <End Role="Survey" EntitySet="Survey" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Survey__AdminId__1A14E395" Association="Self.FK__Survey__AdminId__1A14E395">
+            <End Role="Administrator" EntitySet="Administrator" />
+            <End Role="Survey" EntitySet="Survey" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SurveySystemDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="AdminId" />
+          </Key>
+          <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserAccount" Relationship="Self.FK__Administr__Email__173876EA" FromRole="Administrator" ToRole="UserAccount" />
+          <NavigationProperty Name="Survey" Relationship="Self.FK__Survey__AdminId__1A14E395" FromRole="Administrator" ToRole="Survey" />
+        </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParticipantId" Type="Int32" />
+          <Property Name="QuestionId" Type="Int32" />
+          <NavigationProperty Name="Participant" Relationship="Self.FK__Answer__Particip__239E4DCF" FromRole="Answer" ToRole="Participant" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__Answer__Question__286302EC" FromRole="Answer" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="InputType">
+          <Key>
+            <PropertyRef Name="InputId" />
+          </Key>
+          <Property Name="InputId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__Question__InputI__1DE57479" FromRole="InputType" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="MultiOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuestionId" Type="Int32" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__MultiOpti__Quest__20C1E124" FromRole="MultiOption" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="ParticipantId" />
+          </Key>
+          <Property Name="ParticipantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RelStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__Particip__239E4DCF" FromRole="Participant" ToRole="Answer" />
+          <NavigationProperty Name="UserAccount" Relationship="Self.FK__Participa__Email__145C0A3F" FromRole="Participant" ToRole="UserAccount" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuestionDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AnswerRequired" Type="Boolean" Nullable="false" />
+          <Property Name="RatingMaxValue" Type="Byte" />
+          <Property Name="SurveyId" Type="Int32" />
+          <Property Name="InputId" Type="Int32" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Answer__Question__286302EC" FromRole="Question" ToRole="Answer" />
+          <NavigationProperty Name="InputType" Relationship="Self.FK__Question__InputI__1DE57479" FromRole="Question" ToRole="InputType" />
+          <NavigationProperty Name="MultiOption" Relationship="Self.FK__MultiOpti__Quest__20C1E124" FromRole="Question" ToRole="MultiOption" />
+          <NavigationProperty Name="Survey" Relationship="Self.FK__Question__Survey__1CF15040" FromRole="Question" ToRole="Survey" />
+        </EntityType>
+        <EntityType Name="Survey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurveyTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AdminId" Type="Int32" />
+          <NavigationProperty Name="Administrator" Relationship="Self.FK__Survey__AdminId__1A14E395" FromRole="Survey" ToRole="Administrator" />
+          <NavigationProperty Name="Question" Relationship="Self.FK__Question__Survey__1CF15040" FromRole="Survey" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Administrator" Relationship="Self.FK__Administr__Email__173876EA" FromRole="UserAccount" ToRole="Administrator" />
+          <NavigationProperty Name="Participant" Relationship="Self.FK__Participa__Email__145C0A3F" FromRole="UserAccount" ToRole="Participant" />
+        </EntityType>
+        <Association Name="FK__Administr__Email__173876EA">
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <End Role="Administrator" Type="Self.Administrator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Administrator">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Survey__AdminId__1A14E395">
+          <End Role="Administrator" Type="Self.Administrator" Multiplicity="0..1" />
+          <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Administrator">
+              <PropertyRef Name="AdminId" />
+            </Principal>
+            <Dependent Role="Survey">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__Particip__239E4DCF">
+          <End Role="Participant" Type="Self.Participant" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participant">
+              <PropertyRef Name="ParticipantId" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="ParticipantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Answer__Question__286302EC">
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Question__InputI__1DE57479">
+          <End Role="InputType" Type="Self.InputType" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InputType">
+              <PropertyRef Name="InputId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="InputId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MultiOpti__Quest__20C1E124">
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="MultiOption" Type="Self.MultiOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="MultiOption">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Participa__Email__145C0A3F">
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Question__Survey__1CF15040">
+          <End Role="Survey" Type="Self.Survey" Multiplicity="0..1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Survey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SurveySystemDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Administrator" EntityType="Self.Administrator" />
+          <EntitySet Name="Answer" EntityType="Self.Answer" />
+          <EntitySet Name="InputType" EntityType="Self.InputType" />
+          <EntitySet Name="MultiOption" EntityType="Self.MultiOption" />
+          <EntitySet Name="Participant" EntityType="Self.Participant" />
+          <EntitySet Name="Question" EntityType="Self.Question" />
+          <EntitySet Name="Survey" EntityType="Self.Survey" />
+          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
+          <AssociationSet Name="FK__Administr__Email__173876EA" Association="Self.FK__Administr__Email__173876EA">
+            <End Role="UserAccount" EntitySet="UserAccount" />
+            <End Role="Administrator" EntitySet="Administrator" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Survey__AdminId__1A14E395" Association="Self.FK__Survey__AdminId__1A14E395">
+            <End Role="Administrator" EntitySet="Administrator" />
+            <End Role="Survey" EntitySet="Survey" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__Particip__239E4DCF" Association="Self.FK__Answer__Particip__239E4DCF">
+            <End Role="Participant" EntitySet="Participant" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Answer__Question__286302EC" Association="Self.FK__Answer__Question__286302EC">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Question__InputI__1DE57479" Association="Self.FK__Question__InputI__1DE57479">
+            <End Role="InputType" EntitySet="InputType" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MultiOpti__Quest__20C1E124" Association="Self.FK__MultiOpti__Quest__20C1E124">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="MultiOption" EntitySet="MultiOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Participa__Email__145C0A3F" Association="Self.FK__Participa__Email__145C0A3F">
+            <End Role="UserAccount" EntitySet="UserAccount" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Question__Survey__1CF15040" Association="Self.FK__Question__Survey__1CF15040">
+            <End Role="Survey" EntitySet="Survey" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SurveySystemDBModelStoreContainer" CdmEntityContainer="SurveySystemDBEntities">
+          <EntitySetMapping Name="Administrator">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Administrator">
+              <MappingFragment StoreEntitySet="Administrator">
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Answer">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Answer">
+              <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InputType">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.InputType">
+              <MappingFragment StoreEntitySet="InputType">
+                <ScalarProperty Name="InputId" ColumnName="InputId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MultiOption">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.MultiOption">
+              <MappingFragment StoreEntitySet="MultiOption">
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participant">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Participant">
+              <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="RelStatus" ColumnName="RelStatus" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="QuestionDesc" ColumnName="QuestionDesc" />
+                <ScalarProperty Name="AnswerRequired" ColumnName="AnswerRequired" />
+                <ScalarProperty Name="RatingMaxValue" ColumnName="RatingMaxValue" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="InputId" ColumnName="InputId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Survey">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Survey">
+              <MappingFragment StoreEntitySet="Survey">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="SurveyTitle" ColumnName="SurveyTitle" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccount">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.UserAccount">
+              <MappingFragment StoreEntitySet="UserAccount">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
