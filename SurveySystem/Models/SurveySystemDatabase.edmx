@@ -459,7 +459,7 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             <End Role="Survey" EntitySet="Survey" />
             <End Role="Question" EntitySet="Question" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -475,11 +475,11 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Answer">
-            <EntityTypeMapping TypeName="SurveySystemDBModel.Answer">
+            <EntityTypeMapping TypeName="IsTypeOf(SurveySystemDBModel.Answer)">
               <MappingFragment StoreEntitySet="Answer">
                 <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
-                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -544,7 +544,7 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

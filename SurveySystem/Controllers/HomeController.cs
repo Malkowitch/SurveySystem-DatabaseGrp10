@@ -26,10 +26,6 @@ namespace SurveySystem.Controllers
         [HttpPost]
         public ActionResult Survey(int adminId, string survTitle, List<string> questions)
         {
-
-            //ICollection<Question> listQuestions = new List<Question>();
-
-
             Survey newSurv = new Survey
             {
                 AdminId = adminId,
@@ -53,7 +49,6 @@ namespace SurveySystem.Controllers
                 };
                 db.Question.Add(que);
                 db.SaveChanges();
-                //listQuestions.Add(que);
             };
 
             return RedirectToAction("Index", "Home");
@@ -69,6 +64,22 @@ namespace SurveySystem.Controllers
         {
             List<Survey> survs = db.Survey.ToList();
             return View(survs);
+        }
+
+        public ActionResult Answering(int surveyId)
+        {
+            Survey surv = db.Survey.Where(x => x.SurveyId == surveyId).First();
+            return View(surv);
+        }
+        public ActionResult Answering(int participantId, int questionId)
+        {
+            Answer newAnsw = new Answer
+            {
+                ParticipantId = participantId,
+                QuestionId = questionId
+            };
+            
+            return View("index");
         }
     }
 }

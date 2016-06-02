@@ -1,0 +1,21 @@
+﻿@model SurveySystem.Models.Survey
+@{
+    ViewBag.Title = "Answering";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Answering for @Model.SurveyTitle</h2>
+@using (Html.BeginForm())
+{
+    <input type="hidden" value="2" name="participantId" />
+    foreach (var item in Model.Question)
+    {
+        if (item.InputId == 1)
+        {
+        <label>@item.QuestionText</label>
+        <input type="text" id="@item.QuestionId" /><br />
+        }
+    }
+    <br /><br />
+<input type="submit" name="Answer" value="Send in answers" />
+}
