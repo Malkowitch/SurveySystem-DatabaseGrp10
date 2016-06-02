@@ -66,19 +66,39 @@ namespace SurveySystem.Controllers
             return View(survs);
         }
 
+        [HttpGet]
         public ActionResult Answering(int surveyId)
         {
             Survey surv = db.Survey.Where(x => x.SurveyId == surveyId).First();
             return View(surv);
         }
-        public ActionResult Answering(int participantId, int questionId)
+        [HttpPost]
+        public ActionResult Answering(int participantId, List<int> questionId, List<string> answerText)
         {
-            Answer newAnsw = new Answer
+            Answer newAnsw = null;
+            AnswerText answText = null;
+
+            for (int i = 0; i < questionId.Count; i++)
             {
-                ParticipantId = participantId,
-                QuestionId = questionId
+                newAnsw = new Answer
+                {
+                    ParticipantId = participantId,
+                    QuestionId = questionId[i],
+                };
+                db.Answer.Add(newAnsw);
+                db.SaveChanges();
+                if (db.Question.Where(x => x.QuestionId == questionId[i]).First().InputType.Type.Equals("Text"))
+                {
+                    answText = new AnswerText
+                    {
+                        TextInput = answerText[i],
+                        AnswerId = db.Answer.First().AnswerId
+                    };
+                    db.AnswerText.Add(answText);
+                    db.SaveChanges();
+                }
             };
-            
+
             return View("index");
         }
     }

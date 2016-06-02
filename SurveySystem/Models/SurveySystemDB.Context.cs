@@ -25,12 +25,15 @@ namespace SurveySystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Administrator> Administrator { get; set; }
         public virtual DbSet<Answer> Answer { get; set; }
+        public virtual DbSet<AnswerText> AnswerText { get; set; }
         public virtual DbSet<InputType> InputType { get; set; }
         public virtual DbSet<MultiOption> MultiOption { get; set; }
         public virtual DbSet<Participant> Participant { get; set; }
         public virtual DbSet<Question> Question { get; set; }
+        public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Survey> Survey { get; set; }
         public virtual DbSet<UserAccount> UserAccount { get; set; }
     }

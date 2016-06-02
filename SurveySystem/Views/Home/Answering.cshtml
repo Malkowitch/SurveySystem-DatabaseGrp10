@@ -13,7 +13,8 @@
         if (item.InputId == 1)
         {
         <label>@item.QuestionText</label>
-        <input type="text" id="@item.QuestionId" /><br />
+        <p><input type="text" name="answerText" /></p>
+        <input type="hidden" value="@item.QuestionId" name="questionId" />
         }
     }
     <br /><br />

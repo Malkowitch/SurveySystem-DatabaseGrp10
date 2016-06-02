@@ -222,46 +222,55 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrator.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Answer.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AnswerText.cs">
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InputType.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MultiOption.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Participant.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Question.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rating.cs">
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Survey.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SurveyConnection.cs" />
-    <Compile Include="Models\SurveySystemDatabase.Context.cs">
+    <Compile Include="Models\SurveySystemDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SurveySystemDatabase.Context.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SurveySystemDatabase.cs">
+    <Compile Include="Models\SurveySystemDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SurveySystemDatabase.Designer.cs">
+    <Compile Include="Models\SurveySystemDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SurveySystemDatabase.edmx</DependentUpon>
+      <DependentUpon>SurveySystemDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\UserAccount.cs">
-      <DependentUpon>SurveySystemDatabase.tt</DependentUpon>
+      <DependentUpon>SurveySystemDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -273,15 +282,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\SurveySystemDatabase.Context.tt">
+    <Content Include="Models\SurveySystemDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SurveySystemDatabase.edmx</DependentUpon>
-      <LastGenOutput>SurveySystemDatabase.Context.cs</LastGenOutput>
+      <DependentUpon>SurveySystemDB.edmx</DependentUpon>
+      <LastGenOutput>SurveySystemDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\SurveySystemDatabase.tt">
+    <Content Include="Models\SurveySystemDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SurveySystemDatabase.edmx</DependentUpon>
-      <LastGenOutput>SurveySystemDatabase.cs</LastGenOutput>
+      <DependentUpon>SurveySystemDB.edmx</DependentUpon>
+      <LastGenOutput>SurveySystemDB.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
@@ -290,12 +299,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\SurveySystemDatabase.edmx">
+    <EntityDeploy Include="Models\SurveySystemDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SurveySystemDatabase.Designer.cs</LastGenOutput>
+      <LastGenOutput>SurveySystemDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\SurveySystemDatabase.edmx.diagram">
-      <DependentUpon>SurveySystemDatabase.edmx</DependentUpon>
+    <Content Include="Models\SurveySystemDB.edmx.diagram">
+      <DependentUpon>SurveySystemDB.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

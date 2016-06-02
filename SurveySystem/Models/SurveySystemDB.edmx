@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="SurveySystemDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Administrator">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -20,12 +30,14 @@
           <Property Name="ParticipantId" Type="int" />
           <Property Name="QuestionId" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SurveySystemDB.dbo.AnswerText' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="AnswerText">
+          <Key>
+            <PropertyRef Name="AnswerTextId" />
+          </Key>
           <Property Name="AnswerId" Type="int" />
           <Property Name="TextInput" Type="nvarchar(max)" />
-        </EntityType>-->
+          <Property Name="AnswerTextId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="InputType">
           <Key>
             <PropertyRef Name="InputId" />
@@ -63,12 +75,14 @@ warning 6013: The table/view 'SurveySystemDB.dbo.AnswerText' does not have a pri
           <Property Name="SurveyId" Type="int" />
           <Property Name="InputId" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'SurveySystemDB.dbo.Rating' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="RatingId" />
+          </Key>
           <Property Name="AnswerId" Type="int" />
           <Property Name="RatingInput" Type="tinyint" />
-        </EntityType>-->
+          <Property Name="RatingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Survey">
           <Key>
             <PropertyRef Name="SurveyId" />
@@ -123,9 +137,18 @@ warning 6013: The table/view 'SurveySystemDB.dbo.Rating' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'SurveySystemDB.dbo.AnswerText' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__AnswerTex__Answe__25869641" />-->
+        <Association Name="FK__AnswerTex__Answe__25869641">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
+          <End Role="AnswerText" Type="Self.AnswerText" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerId" />
+            </Principal>
+            <Dependent Role="AnswerText">
+              <PropertyRef Name="AnswerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__MultiOpti__Quest__20C1E124">
           <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
           <End Role="MultiOption" Type="Self.MultiOption" Multiplicity="*" />
@@ -174,9 +197,18 @@ error 6004: The table 'SurveySystemDB.dbo.AnswerText' is referenced by a relatio
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Rating__AnswerId__276EDEB3" />-->
+        <Association Name="FK__Rating__AnswerId__276EDEB3">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerId" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="AnswerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Survey__AdminId__1A14E395">
           <End Role="Administrator" Type="Self.Administrator" Multiplicity="0..1" />
           <End Role="Survey" Type="Self.Survey" Multiplicity="*" />
@@ -190,12 +222,15 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SurveySystemDBModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnswerText" EntityType="Self.AnswerText" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InputType" EntityType="Self.InputType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MultiOption" EntityType="Self.MultiOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Survey" EntityType="Self.Survey" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Administr__Email__173876EA" Association="Self.FK__Administr__Email__173876EA">
@@ -209,6 +244,10 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
           <AssociationSet Name="FK__Answer__Question__286302EC" Association="Self.FK__Answer__Question__286302EC">
             <End Role="Question" EntitySet="Question" />
             <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AnswerTex__Answe__25869641" Association="Self.FK__AnswerTex__Answe__25869641">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="AnswerText" EntitySet="AnswerText" />
           </AssociationSet>
           <AssociationSet Name="FK__MultiOpti__Quest__20C1E124" Association="Self.FK__MultiOpti__Quest__20C1E124">
             <End Role="Question" EntitySet="Question" />
@@ -226,6 +265,10 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             <End Role="Survey" EntitySet="Survey" />
             <End Role="Question" EntitySet="Question" />
           </AssociationSet>
+          <AssociationSet Name="FK__Rating__AnswerId__276EDEB3" Association="Self.FK__Rating__AnswerId__276EDEB3">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
           <AssociationSet Name="FK__Survey__AdminId__1A14E395" Association="Self.FK__Survey__AdminId__1A14E395">
             <End Role="Administrator" EntitySet="Administrator" />
             <End Role="Survey" EntitySet="Survey" />
@@ -236,6 +279,16 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SurveySystemDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
         <EntityType Name="Administrator">
           <Key>
             <PropertyRef Name="AdminId" />
@@ -254,6 +307,17 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
           <Property Name="QuestionId" Type="Int32" />
           <NavigationProperty Name="Participant" Relationship="Self.FK__Answer__Particip__239E4DCF" FromRole="Answer" ToRole="Participant" />
           <NavigationProperty Name="Question" Relationship="Self.FK__Answer__Question__286302EC" FromRole="Answer" ToRole="Question" />
+          <NavigationProperty Name="AnswerText" Relationship="Self.FK__AnswerTex__Answe__25869641" FromRole="Answer" ToRole="AnswerText" />
+          <NavigationProperty Name="Rating" Relationship="Self.FK__Rating__AnswerId__276EDEB3" FromRole="Answer" ToRole="Rating" />
+        </EntityType>
+        <EntityType Name="AnswerText">
+          <Key>
+            <PropertyRef Name="AnswerTextId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int32" />
+          <Property Name="TextInput" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AnswerTextId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__AnswerTex__Answe__25869641" FromRole="AnswerText" ToRole="Answer" />
         </EntityType>
         <EntityType Name="InputType">
           <Key>
@@ -299,6 +363,15 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
           <NavigationProperty Name="InputType" Relationship="Self.FK__Question__InputI__1DE57479" FromRole="Question" ToRole="InputType" />
           <NavigationProperty Name="MultiOption" Relationship="Self.FK__MultiOpti__Quest__20C1E124" FromRole="Question" ToRole="MultiOption" />
           <NavigationProperty Name="Survey" Relationship="Self.FK__Question__Survey__1CF15040" FromRole="Question" ToRole="Survey" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="RatingId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int32" />
+          <Property Name="RatingInput" Type="Byte" />
+          <Property Name="RatingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK__Rating__AnswerId__276EDEB3" FromRole="Rating" ToRole="Answer" />
         </EntityType>
         <EntityType Name="Survey">
           <Key>
@@ -370,6 +443,30 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__AnswerTex__Answe__25869641">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
+          <End Role="AnswerText" Type="Self.AnswerText" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerId" />
+            </Principal>
+            <Dependent Role="AnswerText">
+              <PropertyRef Name="AnswerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rating__AnswerId__276EDEB3">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="AnswerId" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="AnswerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Question__InputI__1DE57479">
           <End Role="InputType" Type="Self.InputType" Multiplicity="0..1" />
           <End Role="Question" Type="Self.Question" Multiplicity="*" />
@@ -418,13 +515,16 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SurveySystemDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SurveySystemDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="Administrator" EntityType="Self.Administrator" />
           <EntitySet Name="Answer" EntityType="Self.Answer" />
+          <EntitySet Name="AnswerText" EntityType="Self.AnswerText" />
           <EntitySet Name="InputType" EntityType="Self.InputType" />
           <EntitySet Name="MultiOption" EntityType="Self.MultiOption" />
           <EntitySet Name="Participant" EntityType="Self.Participant" />
           <EntitySet Name="Question" EntityType="Self.Question" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" />
           <EntitySet Name="Survey" EntityType="Self.Survey" />
           <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
           <AssociationSet Name="FK__Administr__Email__173876EA" Association="Self.FK__Administr__Email__173876EA">
@@ -443,6 +543,14 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             <End Role="Question" EntitySet="Question" />
             <End Role="Answer" EntitySet="Answer" />
           </AssociationSet>
+          <AssociationSet Name="FK__AnswerTex__Answe__25869641" Association="Self.FK__AnswerTex__Answe__25869641">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="AnswerText" EntitySet="AnswerText" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rating__AnswerId__276EDEB3" Association="Self.FK__Rating__AnswerId__276EDEB3">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
           <AssociationSet Name="FK__Question__InputI__1DE57479" Association="Self.FK__Question__InputI__1DE57479">
             <End Role="InputType" EntitySet="InputType" />
             <End Role="Question" EntitySet="Question" />
@@ -459,13 +567,23 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             <End Role="Survey" EntitySet="Survey" />
             <End Role="Question" EntitySet="Question" />
           </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SurveySystemDBModelStoreContainer" CdmEntityContainer="SurveySystemDBEntities">
+        <EntityContainerMapping StorageEntityContainer="SurveySystemDBModelStoreContainer" CdmEntityContainer="SurveySystemDBEntities1">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Administrator">
             <EntityTypeMapping TypeName="SurveySystemDBModel.Administrator">
               <MappingFragment StoreEntitySet="Administrator">
@@ -475,11 +593,20 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Answer">
-            <EntityTypeMapping TypeName="IsTypeOf(SurveySystemDBModel.Answer)">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Answer">
               <MappingFragment StoreEntitySet="Answer">
                 <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
                 <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnswerText">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.AnswerText">
+              <MappingFragment StoreEntitySet="AnswerText">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="TextInput" ColumnName="TextInput" />
+                <ScalarProperty Name="AnswerTextId" ColumnName="AnswerTextId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -524,6 +651,15 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Rating">
+            <EntityTypeMapping TypeName="SurveySystemDBModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="RatingInput" ColumnName="RatingInput" />
+                <ScalarProperty Name="RatingId" ColumnName="RatingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Survey">
             <EntityTypeMapping TypeName="SurveySystemDBModel.Survey">
               <MappingFragment StoreEntitySet="Survey">
@@ -544,7 +680,7 @@ error 6004: The table 'SurveySystemDB.dbo.Rating' is referenced by a relationshi
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
