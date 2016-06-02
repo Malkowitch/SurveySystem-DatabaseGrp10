@@ -9,11 +9,13 @@ namespace SurveySystem.Controllers
 {
     public class HomeController : Controller
     {
-        private SurveyConnection db = new SurveyConnection();
-        
+        //private SurveyConnection db = new SurveyConnection();
+        private SurveySystemDBEntities db = new SurveySystemDBEntities();
+
+        [HttpGet]
         public ActionResult Index()
         {
-            List<Question> questions = db.QueestionDB.ToList();
+            List<Question> questions = db.Question.ToList();
             return View(questions);
         }
     }
