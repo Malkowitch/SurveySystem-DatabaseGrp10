@@ -10,25 +10,11 @@ namespace SurveySystem.Controllers
     public class HomeController : Controller
     {
         private SurveyConnection db = new SurveyConnection();
-
+        
         public ActionResult Index()
         {
-            
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            List<Question> questions = db.QueestionDB.ToList();
+            return View(questions);
         }
     }
 }
