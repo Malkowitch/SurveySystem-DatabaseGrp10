@@ -9,7 +9,6 @@ namespace SurveySystem.Controllers
 {
     public class HomeController : Controller
     {
-        //private SurveyConnection db = new SurveyConnection();
         private SurveySystemDBEntities db = new SurveySystemDBEntities();
 
         [HttpGet]
