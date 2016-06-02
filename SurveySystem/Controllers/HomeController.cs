@@ -18,5 +18,9 @@ namespace SurveySystem.Controllers
             List<Question> questions = db.Question.ToList();
             return View(questions);
         }
+        public ActionResult Survey()
+        {
+            return View();
+        }
     }
 }
