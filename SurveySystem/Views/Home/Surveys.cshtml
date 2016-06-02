@@ -1,7 +1,14 @@
-﻿
+﻿@model IEnumerable<SurveySystem.Models.Survey>
 @{
     ViewBag.Title = "Surveys";
 }
+<div>
+    <h2>All surveys</h2>
 
-<h2>Surveys</h2>
-
+    @foreach (var item in Model)
+    {
+        <h3>
+            @item.SurveyTitle
+        </h3>
+    }
+</div>

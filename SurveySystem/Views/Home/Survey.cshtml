@@ -1,25 +1,31 @@
-﻿
+﻿@*@model SurveySystem.Models.Survey;*@
 @{
     ViewBag.Title = "Survey";
 }
 
 <h2>Create Survey</h2>
 
-<form>
-    <label>Survey Title:</label><br/>
-    <p><input type="text" name="surveyTitle" /></p>
-    <label>Question 1:</label><br/>
-    <p><input type="text" name="question1"/></p>
+
+@using (Html.BeginForm())
+{
+    <input type="hidden" value="1" name="adminId" />
+
+    <label>Survey Title:</label><br />
+    <p><input type="text" name="survTitle" /></p>
+    <label>Question 1:</label><br />
+    <p><input type="text" name="questions" /></p>
     <label>Question 2:</label><br />
-    <p><input type="text" name="question2"/></p>
+    <p><input type="text" name="questions" /></p>
     <label>Question 3:</label><br />
-    <p><input type="text" name="question3"/></p>
+    <p><input type="text" name="questions" /></p>
     <input type="submit" value="Submit">
 
+}
 
 
-
-</form>
-
-
+@*<p><input type="text" name="question1" /></p>
+<label>Question 2:</label><br />
+<p><input type="text" name="question2" /></p>
+<label>Question 3:</label><br />
+<p><input type="text" name="question3" /></p>*@
 
