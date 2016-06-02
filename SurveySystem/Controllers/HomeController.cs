@@ -9,7 +9,6 @@ namespace SurveySystem.Controllers
 {
     public class HomeController : Controller
     {
-        //private SurveyConnection db = new SurveyConnection();
         private SurveySystemDBEntities db = new SurveySystemDBEntities();
 
         [HttpGet]
@@ -18,7 +17,19 @@ namespace SurveySystem.Controllers
             List<Question> questions = db.Question.ToList();
             return View(questions);
         }
+
         public ActionResult Survey()
+        {
+            return View();
+        }
+
+
+        public ActionResult MyProfile()
+        {
+            return View();
+        }
+
+        public ActionResult Surveys()
         {
             return View();
         }
