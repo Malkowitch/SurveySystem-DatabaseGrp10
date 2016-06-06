@@ -14,7 +14,7 @@ namespace SurveySystem.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-           
+
             return View();
         }
 
@@ -87,7 +87,9 @@ namespace SurveySystem.Controllers
                 };
                 db.Answer.Add(newAnsw);
                 db.SaveChanges();
-                if (db.Question.Where(x => x.QuestionId == questionId[i]).First().InputType.Type.Equals("Text"))
+                int y = questionId[i];
+                string temp = db.Question.Where(x => (int)x.QuestionId == y).First().InputType.Type;
+                if (temp.Equals("Text"))
                 {
                     answText = new AnswerText
                     {
